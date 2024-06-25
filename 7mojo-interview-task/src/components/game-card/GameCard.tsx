@@ -31,7 +31,7 @@ const GameCard = (props: IGameCardProps) => {
             {mappedTags.map((tag: string) => {
                 const tagWords = tag.split(' ');
                 return(<div className="tag" key={tag}>
-                    {tagWords.map((word) => <span>{word}</span>)}
+                    {tagWords.map((word) => <span key={word}>{word}</span>)}
                 </div>)
             })}
         </div>
