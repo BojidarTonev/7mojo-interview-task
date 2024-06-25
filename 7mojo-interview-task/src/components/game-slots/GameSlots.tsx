@@ -10,10 +10,11 @@ interface IGameSlotsProps {
     isLoading: boolean
     isFeatured?: boolean
     isFilterable?: boolean
+    isSlotGame: boolean
 }
 
 const GameSlots = (props: IGameSlotsProps) => {
-    const { games, isLoading, isFeatured = false, isFilterable = false } = props;
+    const { games, isLoading, isSlotGame, isFeatured = false, isFilterable = false } = props;
     const {hasOpenedFilter} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
     const renderGameCards = useCallback(() => {
@@ -29,12 +30,14 @@ const GameSlots = (props: IGameSlotsProps) => {
                                 slotData={slotData}
                                 thumbnails={thumbnails}
                                 orientation='horizontal'
+                                isSlotGame={isSlotGame}
                             />
                             {nextGridItem &&
                                 <GameCard
                                     slotData={nextGridItem.slotData}
                                     thumbnails={nextGridItem.thumbnails}
                                     orientation='horizontal'
+                                    isSlotGame={isSlotGame}
                                 />
                             }
                         </div>
@@ -45,7 +48,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                     // Render single card in a grid item
                     return (
                         <div key={name} className="grid-item">
-                            <GameCard slotData={slotData} thumbnails={thumbnails} />
+                            <GameCard slotData={slotData} thumbnails={thumbnails} isSlotGame={isSlotGame} />
                         </div>
                     );
                 }
@@ -53,7 +56,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                 // if we have less than 6 items, render items as usual grid
                 return (
                     <div key={name} className="grid-item">
-                        <GameCard slotData={slotData} thumbnails={thumbnails} orientation={!isFeatured ? 'horizontal' : 'vertical'} />
+                        <GameCard slotData={slotData} thumbnails={thumbnails} isSlotGame={isSlotGame} orientation={!isFeatured ? 'horizontal' : 'vertical'} />
                     </div>
                 );
             }

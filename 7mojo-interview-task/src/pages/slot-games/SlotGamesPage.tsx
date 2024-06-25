@@ -11,14 +11,16 @@ import {ILabelValuePair} from "../../types/common";
 const INTERVAL_SECONDS = 1000;
 
 const SlotGamesPage = () => {
-    const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
     const { playerInfo, operatorToken } = useAppSelector((state) => state.authorization);
     const {selectedGameFeatures, selectedLines} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
-    const { currency } = playerInfo || {};
+    const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
 
     const [allGames, setAllGames] = useState<IGameType[]>([]);
     const [featuredGames, setFeaturedGames] = useState<IGameType[]>([]);
 
+    const { currency } = playerInfo || {};
+
+    // fetch the data
     useEffect(() => {
         const fetchGamesData = async () => {
             if (!currency) {
@@ -55,9 +57,9 @@ const SlotGamesPage = () => {
     }
     return(<div className="slot-games-wrapper">
         <HorizontalSeparator name="Featured games" />
-        <GameSlots games={featuredGames} isLoading={isLoading} isFeatured />
+        <GameSlots games={featuredGames} isLoading={isLoading} isSlotGame isFeatured />
         <HorizontalSeparator name="Slots" hasFilter />
-        <GameSlots games={allGames} isLoading={isLoading} isFilterable />
+        <GameSlots games={allGames} isLoading={isLoading} isSlotGame isFilterable />
     </div>)
 };
 
