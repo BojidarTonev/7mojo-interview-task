@@ -2,6 +2,7 @@ import {useMemo} from "react";
 import defaultThumbnail from '../../assets/default_thumbnail.png';
 import {ISlotData, IThumbnail} from "../../types/types/game-types";
 import {SlotGameTag} from "../../types/enums/game-enums";
+import {splitCamelCase} from "../../utils";
 import './GameCard.scss';
 
 interface IGameCardProps {
@@ -18,8 +19,8 @@ const GameCard = (props: IGameCardProps) => {
     const textWidth = orientation === 'vertical' ? 220: 300;
 
     const mappedTags = useMemo(() => {
-        return slotData.tags.map(tag => SlotGameTag[tag])
-    }, [slotData.tags]);
+        return [`${slotData.linesCount} Lines`, ...slotData.tags.map(tag => SlotGameTag[tag])].map(splitCamelCase)
+    }, [slotData.tags, slotData.linesCount]);
 
     const imageThumbNail = useMemo(() => {
         return thumbnails[0] ? thumbnails[0].imageUrl : defaultThumbnail;
@@ -28,7 +29,10 @@ const GameCard = (props: IGameCardProps) => {
     return(<div className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}>
         <div className={`tags-wrapper ${orientation === 'horizontal' ? 'horizontal-tags-wrapper' : ''}`}>
             {mappedTags.map((tag: string) => {
-                return(<div className="tag" key={tag}>{tag}</div>)
+                const tagWords = tag.split(' ');
+                return(<div className="tag" key={tag}>
+                    {tagWords.map((word) => <span>{word}</span>)}
+                </div>)
             })}
         </div>
         <img src={imageThumbNail} width={textWidth} height={testHeight} />
