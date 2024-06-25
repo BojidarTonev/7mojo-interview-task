@@ -5,7 +5,7 @@ import './MojoButton.scss';
 interface IMojoButtonProps {
     text: string
     onClick: () => void
-    icon?: IconProp;
+    icon?: IconProp
 }
 
 const MojoButton = (props: IMojoButtonProps) => {

@@ -4,7 +4,17 @@
   border-radius: 1px;
   background-color: #d54059;
   color: white;
+  cursor: pointer;
+  transition: all .2s ease-in-out;
 
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    outline: none;
+    border-color: #d54059;
+    background-color: #731928;
+  }
   svg {
     margin-left: 10px;
   }
