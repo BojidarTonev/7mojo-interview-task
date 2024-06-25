@@ -1,26 +1,29 @@
-.game-slots-featured-wrapper {
+.game-slots {
   padding: 20px 300px;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-}
+  display: flex;
+  flex-direction: column;
+  .game-slots-featured-wrapper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
 
-.game-slots-wrapper {
-  padding: 20px 300px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
+  .game-slots-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
 
-.grid-item {
-  text-align: center;
-}
+  .grid-item {
+    text-align: center;
+  }
 
-.stacked {
-  grid-column: span 1;
-  grid-row: span 2;
-  display: grid;
-  grid-template-rows: auto auto;
-  gap: 5px;
-  margin: 25px 0;
+  .stacked {
+    grid-column: span 1;
+    grid-row: span 2;
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 5px;
+    margin: 25px 0;
+  }
 }

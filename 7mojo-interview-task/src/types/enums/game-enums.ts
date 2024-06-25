@@ -29,6 +29,13 @@ enum SlotGameTag {
     Fruits = 6
 }
 
+enum SlotLines {
+    '5-9' = '5-9',
+    '10-25' = '10-25',
+    '25-50' = '25-50',
+    '>50' = '>50',
+}
+
 enum GameTypeRequestParams {
     'any' = 'any',
     'slots' = 'slots',
@@ -39,5 +46,6 @@ export {
     GameType,
     GameCategory,
     SlotGameTag,
+    SlotLines,
     GameTypeRequestParams
 }

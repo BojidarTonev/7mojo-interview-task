@@ -2,15 +2,17 @@ import {IGameType} from "../../types/types/game-types";
 import {useCallback} from "react";
 import GameCard from "../game-card/GameCard";
 import './GameSlots.scss';
+import Filters from "../filters/Filters";
 
 interface IGameSlotsProps {
     games?: IGameType[]
     isLoading: boolean
     isFeatured?: boolean
+    hasOpenedFilter?: boolean
 }
 
 const GameSlots = (props: IGameSlotsProps) => {
-    const { games, isLoading, isFeatured = false } = props;
+    const { games, isLoading, isFeatured = false, hasOpenedFilter = false } = props;
 
     const renderGameCards = useCallback(() => {
         return games?.map((game: IGameType, index: number) => {
@@ -54,10 +56,13 @@ const GameSlots = (props: IGameSlotsProps) => {
                 );
             }
         })
-    }, [games]);
+    }, [games, isFeatured]);
 
-    return (<div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
-        {isLoading ? <>Loading...</> : renderGameCards()}
+    return (<div className="game-slots">
+        {hasOpenedFilter && <Filters />}
+        <div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
+            {isLoading ? <>Loading...</> : renderGameCards()}
+        </div>
     </div>)
 }
 

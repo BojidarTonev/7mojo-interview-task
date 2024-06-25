@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from "react";
+import {useEffect, useMemo, useState} from "react";
 import HorizontalSeparator from "../../components/horizontal-seperator/HorizontalSeparator";
 import GameSlots from "../../components/game-slots/GameSlots";
 import {useAppSelector} from "../../redux/store";
@@ -13,6 +13,8 @@ const SlotGamesPage = () => {
     const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
     const { playerInfo, operatorToken } = useAppSelector((state) => state.authorization);
     const { currency } = playerInfo || {};
+
+    const [openedFilter, setOpenedFilter] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchGamesData = async () => {
@@ -41,8 +43,8 @@ const SlotGamesPage = () => {
     return(<div className="slot-games-wrapper">
         <HorizontalSeparator name="Featured games" />
         <GameSlots games={featuredGames} isLoading={isLoading} isFeatured />
-        <HorizontalSeparator name="Slots"  />
-        <GameSlots games={data} isLoading={isLoading} />
+        <HorizontalSeparator name="Slots" hasFilter onFilterClick={() => setOpenedFilter(!openedFilter)} isFilterOpened={openedFilter} />
+        <GameSlots games={data} isLoading={isLoading} hasOpenedFilter={openedFilter}  />
     </div>)
 };
 
