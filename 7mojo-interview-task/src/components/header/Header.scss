@@ -1,0 +1,61 @@
+.header-wrapper {
+  height: 70px;
+  width: 100%;
+  background-color: #01030e;
+  position: sticky;
+  top: 0;
+  box-sizing: border-box;
+  padding: 0 300px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  border-bottom: 2px solid #7e7e0a;
+
+  img {
+    position: absolute;
+    top: 8px;
+  }
+
+  nav {
+    margin-bottom: 10px;
+    a {
+      background-color: transparent;
+      position: relative;
+      z-index: 2;
+      border: 2px solid #7e7e0a;
+      border-bottom-width: 0;
+      padding: 15px 40px;
+      text-transform: uppercase;
+      color: #7e7e0a;
+      font-weight: 700;
+      transition: all .2s ease-in-out;
+
+      &:first-child {
+        border-right: none;
+      }
+
+      &:hover {
+        border-bottom: none;
+        color: white;
+      }
+    }
+    .active {
+      background-color: #120828;
+      border-bottom: none;
+      color: white;
+    }
+  }
+
+  .user-information {
+    font-weight: 600;
+    margin-bottom: 25px;
+    .user-name {
+      color: white;
+    }
+    .user-amount {
+      color: #cbcb16;
+      font-size: 22px;
+      align-self: flex-start;
+    }
+  }
+}
