@@ -42,10 +42,16 @@ enum GameTypeRequestParams {
     'live' = 'live'
 }
 
+type EnumEntry<K extends string | number, V> = {
+    key: K;
+    value: V;
+};
+
 export {
     GameType,
     GameCategory,
     SlotGameTag,
     SlotLines,
+    EnumEntry,
     GameTypeRequestParams
 }

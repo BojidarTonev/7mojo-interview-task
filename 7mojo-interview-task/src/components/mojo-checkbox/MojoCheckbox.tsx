@@ -2,6 +2,7 @@ import './MojoCheckbox.scss';
 
 interface IMojoCheckboxProps {
     label: string
+    value?: number
     checked: boolean
     onChange: (el: string) => void
 }

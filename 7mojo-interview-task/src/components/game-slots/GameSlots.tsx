@@ -1,18 +1,20 @@
 import {IGameType} from "../../types/types/game-types";
 import {useCallback} from "react";
 import GameCard from "../game-card/GameCard";
-import './GameSlots.scss';
 import Filters from "../filters/Filters";
+import {useAppSelector} from "../../redux/store";
+import './GameSlots.scss';
 
 interface IGameSlotsProps {
     games?: IGameType[]
     isLoading: boolean
     isFeatured?: boolean
-    hasOpenedFilter?: boolean
+    isFilterable?: boolean
 }
 
 const GameSlots = (props: IGameSlotsProps) => {
-    const { games, isLoading, isFeatured = false, hasOpenedFilter = false } = props;
+    const { games, isLoading, isFeatured = false, isFilterable = false } = props;
+    const {hasOpenedFilter} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
     const renderGameCards = useCallback(() => {
         return games?.map((game: IGameType, index: number) => {
@@ -59,7 +61,7 @@ const GameSlots = (props: IGameSlotsProps) => {
     }, [games, isFeatured]);
 
     return (<div className="game-slots">
-        {hasOpenedFilter && <Filters />}
+        {hasOpenedFilter && isFilterable && <Filters />}
         <div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
             {isLoading ? <>Loading...</> : renderGameCards()}
         </div>
