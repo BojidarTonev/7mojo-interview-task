@@ -20,7 +20,7 @@ const GameSlots = (props: IGameSlotsProps) => {
     const renderGameCards = useCallback(() => {
         return games?.map((game: IGameType, index: number) => {
             const { slotData, thumbnails, name, categories, liveData } = game;
-            if (games?.length === 6) {
+            if (games?.length === 6 && isFeatured) {
                 if (index === 2) {
                     // Render two cards stacked in one grid item
                     const nextGridItem = games[3];
@@ -33,7 +33,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                                 isSlotGame={isSlotGame}
                                 name={name}
                                 categories={categories}
-                                playersCount={liveData.playersCount}
+                                playersCount={liveData?.playersCount}
                             />
                             {nextGridItem &&
                                 <GameCard
@@ -43,7 +43,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                                     isSlotGame={isSlotGame}
                                     name={name}
                                     categories={categories}
-                                    playersCount={liveData.playersCount}
+                                    playersCount={liveData?.playersCount}
                                 />
                             }
                         </div>
@@ -60,7 +60,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                                 isSlotGame={isSlotGame}
                                 name={name}
                                 categories={categories}
-                                playersCount={liveData.playersCount}
+                                playersCount={liveData?.playersCount}
                             />
                         </div>
                     );
@@ -75,7 +75,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                             name={name}
                             categories={categories}
                             isSlotGame={isSlotGame}
-                            playersCount={liveData.playersCount}
+                            playersCount={liveData?.playersCount}
                             orientation={!isFeatured ? 'horizontal' : 'vertical'}
                         />
                     </div>
