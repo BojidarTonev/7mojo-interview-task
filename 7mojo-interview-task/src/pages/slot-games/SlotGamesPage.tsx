@@ -10,27 +10,6 @@ import {ILabelValuePair} from "../../types/common";
 
 const INTERVAL_SECONDS = 1000;
 
-const filterAllGamesData = (allGamesData: IGameType[], maximumLines: number, minimumLines: number, selectedGameFeatures: ILabelValuePair[]) => {
-    return allGamesData?.filter((el: IGameType) =>
-        el.slotData.linesCount >= minimumLines &&
-        el.slotData.linesCount <= maximumLines &&
-        (selectedGameFeatures.length === 0 || el.slotData.tags.some(tag => selectedGameFeatures.map(gf => gf.value).includes(tag))));
-}
-
-const getSelectedLineValues = (selectedLines: string[]): [number, number] => {
-    const selectedLineValues = selectedLines[0]
-        ? selectedLines[0].split(/[->]/).filter(el => !isNaN(el)).filter(el => el).map(el => Number(el))
-        : [0, Infinity];
-    // in case we have >50 to keep the logic flow without braking it
-    if (selectedLineValues.length === 1) {
-        selectedLineValues.push(Infinity);
-    }
-    const minimumLines = selectedLineValues[0];
-    const maximumLines = selectedLineValues[1];
-
-    return [minimumLines, maximumLines];
-}
-
 const SlotGamesPage = () => {
     const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
     const { playerInfo, operatorToken } = useAppSelector((state) => state.authorization);
@@ -83,3 +62,26 @@ const SlotGamesPage = () => {
 };
 
 export default SlotGamesPage;
+
+// these functions are currently staying in this file since they are not reused anywhere else,
+// so having them here would keep the code base cleaner
+const filterAllGamesData = (allGamesData: IGameType[], maximumLines: number, minimumLines: number, selectedGameFeatures: ILabelValuePair[]) => {
+    return allGamesData?.filter((el: IGameType) =>
+        el.slotData.linesCount >= minimumLines &&
+        el.slotData.linesCount <= maximumLines &&
+        (selectedGameFeatures.length === 0 || el.slotData.tags.some(tag => selectedGameFeatures.map(gf => gf.value).includes(tag))));
+}
+
+const getSelectedLineValues = (selectedLines: string[]): [number, number] => {
+    const selectedLineValues = selectedLines[0]
+        ? selectedLines[0].split(/[->]/).filter(el => !isNaN(el)).filter(el => el).map(el => Number(el))
+        : [0, Infinity];
+    // in case we have >50 to keep the logic flow without braking it
+    if (selectedLineValues.length === 1) {
+        selectedLineValues.push(Infinity);
+    }
+    const minimumLines = selectedLineValues[0];
+    const maximumLines = selectedLineValues[1];
+
+    return [minimumLines, maximumLines];
+}
