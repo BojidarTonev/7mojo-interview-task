@@ -1,3 +1,7 @@
 .live-casino-games-wrapper {
-  height: 100vh;
+  min-height: 90vh;
+
+  .live-casino-games {
+    margin-top: 30px;
+  }
 }

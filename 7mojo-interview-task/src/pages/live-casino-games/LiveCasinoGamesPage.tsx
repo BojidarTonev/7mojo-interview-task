@@ -46,7 +46,6 @@ const LiveCasinoGamesPage = () => {
             return
         }
         return Object.entries(groupedLiveGames).map(([gameType, games]) => {
-            console.log('games => ', games);
             return (
                 <div key={gameType}>
                     <HorizontalSeparator name={splitCamelCase(gameType)} />
@@ -57,7 +56,9 @@ const LiveCasinoGamesPage = () => {
     }, [groupedLiveGames, isLoading])
 
     return (<div className="live-casino-games-wrapper">
-        {renderLiveCasinoGameTypes()}
+        <div className="live-casino-games">
+            {renderLiveCasinoGameTypes()}
+        </div>
     </div>)
 };
 

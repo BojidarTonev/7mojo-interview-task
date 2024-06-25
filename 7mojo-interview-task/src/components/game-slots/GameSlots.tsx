@@ -19,7 +19,7 @@ const GameSlots = (props: IGameSlotsProps) => {
 
     const renderGameCards = useCallback(() => {
         return games?.map((game: IGameType, index: number) => {
-            const { slotData, thumbnails, name } = game;
+            const { slotData, thumbnails, name, categories, liveData } = game;
             if (games?.length === 6) {
                 if (index === 2) {
                     // Render two cards stacked in one grid item
@@ -31,6 +31,9 @@ const GameSlots = (props: IGameSlotsProps) => {
                                 thumbnails={thumbnails}
                                 orientation='horizontal'
                                 isSlotGame={isSlotGame}
+                                name={name}
+                                categories={categories}
+                                playersCount={liveData.playersCount}
                             />
                             {nextGridItem &&
                                 <GameCard
@@ -38,6 +41,9 @@ const GameSlots = (props: IGameSlotsProps) => {
                                     thumbnails={nextGridItem.thumbnails}
                                     orientation='horizontal'
                                     isSlotGame={isSlotGame}
+                                    name={name}
+                                    categories={categories}
+                                    playersCount={liveData.playersCount}
                                 />
                             }
                         </div>
@@ -48,7 +54,14 @@ const GameSlots = (props: IGameSlotsProps) => {
                     // Render single card in a grid item
                     return (
                         <div key={name} className="grid-item">
-                            <GameCard slotData={slotData} thumbnails={thumbnails} isSlotGame={isSlotGame} />
+                            <GameCard
+                                slotData={slotData}
+                                thumbnails={thumbnails}
+                                isSlotGame={isSlotGame}
+                                name={name}
+                                categories={categories}
+                                playersCount={liveData.playersCount}
+                            />
                         </div>
                     );
                 }
@@ -56,7 +69,15 @@ const GameSlots = (props: IGameSlotsProps) => {
                 // if we have less than 6 items, render items as usual grid
                 return (
                     <div key={name} className="grid-item">
-                        <GameCard slotData={slotData} thumbnails={thumbnails} isSlotGame={isSlotGame} orientation={!isFeatured ? 'horizontal' : 'vertical'} />
+                        <GameCard
+                            slotData={slotData}
+                            thumbnails={thumbnails}
+                            name={name}
+                            categories={categories}
+                            isSlotGame={isSlotGame}
+                            playersCount={liveData.playersCount}
+                            orientation={!isFeatured ? 'horizontal' : 'vertical'}
+                        />
                     </div>
                 );
             }
