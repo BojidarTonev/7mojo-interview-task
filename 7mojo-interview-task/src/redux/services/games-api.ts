@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {IGetGamesResponseType} from "../../types/types/game-types";
 
 interface IGetGamesRequestParams {
     operatorToken: string
@@ -7,43 +8,8 @@ interface IGetGamesRequestParams {
     thumbnailsSize?: string
 }
 
-interface IThumbnail {
-    width: number
-    height: number
-    imageUrl: number
-    videoUrl: number
-}
-
-interface ISlotData {
-    linesCount: number
-    tags: any[]
-}
-
-interface IBetData {
-    min: number
-    max: number
-}
-
-interface ILiveData {
-    playersCount: number
-    betData: IBetData[]
-}
-
-interface IGetGamesResponseType {
-    name: string
-    token: string
-    thumbnails: IThumbnail[]
-    gameType: 'any' | 'slots' | 'live'
-    categories: any[]
-    isFeatured: boolean
-    hostsUrl: string
-    clientUrl: string
-    slotData: ISlotData[]
-    liveData: ILiveData
-}
-
-export const authorizationApi = createApi({
-    reducerPath: 'authorizationApi',
+export const gamesApi = createApi({
+    reducerPath: 'gamesApi',
     baseQuery: fetchBaseQuery({
         baseUrl: '/',
         credentials: 'include',
@@ -68,5 +34,5 @@ export const authorizationApi = createApi({
 });
 
 export const {
-    useGetGamesQuery
-} = authorizationApi;
+    useLazyGetGamesQuery
+} = gamesApi;

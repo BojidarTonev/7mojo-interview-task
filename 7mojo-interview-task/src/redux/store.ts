@@ -5,14 +5,17 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {authorizationApi} from "./services/authorization-api";
 // features
 import {authorizationSlice} from "./features/authorization-slice";
+import {gamesApi} from "./services/games-api";
 
 const middlewares: Middleware[] = [
-    authorizationApi.middleware
+    authorizationApi.middleware,
+    gamesApi.middleware,
 ];
 
 const store = configureStore({
     reducer: {
         [authorizationApi.reducerPath]: authorizationApi.reducer,
+        [gamesApi.reducerPath]: gamesApi.reducer,
         [authorizationSlice.name]: authorizationSlice.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middlewares)

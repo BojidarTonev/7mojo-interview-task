@@ -4,15 +4,12 @@ import {useAppSelector} from "../../redux/store";
 import './Header.scss';
 
 const Header = () => {
-    const { playerInfo, isLoading, error } = useAppSelector((state) => state.authorization);
+    const { playerInfo, error } = useAppSelector((state) => state.authorization);
 
     const { username, currency, balance } = playerInfo || {};
 
-    if (isLoading) {
-        return(<div>Loading...</div>)
-    }
     if (error) {
-        return(<div>error</div>)
+        return(<div>{error}</div>)
     }
     return (<>
         <div className="header-wrapper">
@@ -22,10 +19,10 @@ const Header = () => {
                 <NavLink to="/live-casino-games">Live Casino Games</NavLink>
                 <NavLink to="/slot-games">Slot Games</NavLink>
             </nav>
-            <div className="user-information">
+            {playerInfo ? (<div className="user-information">
                 <span className="user-name">{username},</span>
                 <span className="user-amount"> {balance} {currency}</span>
-            </div>
+            </div>) : (<div>Loading player information...</div>)}
         </div>
     </>);
 };

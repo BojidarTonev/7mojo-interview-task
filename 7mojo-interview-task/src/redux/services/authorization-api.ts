@@ -1,16 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-interface IPlayerDataResponseType {
-    username: string
-    currency: string
-    balance: string
-}
-
-interface IGetGamesResponseType {
-    data: IPlayerDataResponseType
-    errorMsg?: string
-    successful: boolean
-}
+import {IGetGamesResponseType} from "../../types/types/game-types";
 
 interface IGetPlayerParams {
     playerToken: string
