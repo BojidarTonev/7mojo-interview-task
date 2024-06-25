@@ -1,7 +1,14 @@
-.game-slots-wrapper {
+.game-slots-featured-wrapper {
   padding: 20px 300px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.game-slots-wrapper {
+  padding: 20px 300px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 

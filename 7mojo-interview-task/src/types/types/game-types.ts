@@ -9,7 +9,7 @@ interface IThumbnail {
 
 interface ISlotData {
     linesCount: number
-    tags: SlotGameTag
+    tags: SlotGameTag[]
 }
 
 interface IBetData {
@@ -31,7 +31,7 @@ interface IGameType {
     isFeatured: boolean
     hostUrl: string
     clientUrl: string
-    slotData: ISlotData[]
+    slotData: ISlotData
     liveData: ILiveData
 }
 

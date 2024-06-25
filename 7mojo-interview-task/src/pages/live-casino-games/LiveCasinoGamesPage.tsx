@@ -1,8 +1,7 @@
 import './LiveCasinoGamesPage.scss';
 
 const LiveCasinoGamesPage = () => {
-    console.log('live casino games');
-    return(<div>
+    return(<div className="live-casino-games-wrapper">
         Live casino games page
     </div>)
 };

@@ -7,7 +7,7 @@ import {GameTypeRequestParams} from "../../types/enums/game-enums";
 import {IGameType} from "../../types/types/game-types";
 import './SlotGamesPage.scss';
 
-const INTERVAL_SECONDS = 11000;
+const INTERVAL_SECONDS = 1000;
 
 const SlotGamesPage = () => {
     const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
@@ -19,12 +19,7 @@ const SlotGamesPage = () => {
             if (!currency) {
                 return;
             }
-            try {
-                console.log('fetching')
-                fetchGamesDataQuery({ operatorToken, currency, type: GameTypeRequestParams.slots });
-            } catch (error) {
-                console.error('Error fetching games data: ', error)
-            }
+            fetchGamesDataQuery({ operatorToken, currency, type: GameTypeRequestParams.slots });
         }
         // initial fetch of data
         void fetchGamesData();
@@ -45,9 +40,9 @@ const SlotGamesPage = () => {
     }
     return(<div className="slot-games-wrapper">
         <HorizontalSeparator name="Featured games" />
-        <GameSlots games={featuredGames} isLoading={isLoading} />
+        <GameSlots games={featuredGames} isLoading={isLoading} isFeatured />
         <HorizontalSeparator name="Slots"  />
-        <GameSlots games={[]} isLoading={isLoading} />
+        <GameSlots games={data} isLoading={isLoading} />
     </div>)
 };
 

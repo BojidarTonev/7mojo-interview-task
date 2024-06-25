@@ -27,12 +27,13 @@ ul {
 
 #root {
   width: 100%;
+  background-color: #120925;
+  background-image: url("./assets/background.svg");
+  background-attachment: fixed;
+  // background-size: 100% 100%;
+  height: 100%;
 }
 
 .app-wrapper {
-  background-color: #120925;
-  background-image: url("./assets/background.svg");
-  // background-size: 100% 100%;
-  height: 100vh;
-  width: 100%;
+
 }

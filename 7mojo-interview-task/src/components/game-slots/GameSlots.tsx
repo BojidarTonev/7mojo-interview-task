@@ -6,10 +6,11 @@ import './GameSlots.scss';
 interface IGameSlotsProps {
     games?: IGameType[]
     isLoading: boolean
+    isFeatured?: boolean
 }
 
 const GameSlots = (props: IGameSlotsProps) => {
-    const { games, isLoading } = props;
+    const { games, isLoading, isFeatured = false } = props;
 
     const renderGameCards = useCallback(() => {
         return games?.map((game: IGameType, index: number) => {
@@ -48,14 +49,14 @@ const GameSlots = (props: IGameSlotsProps) => {
                 // if we have less than 6 items, render items as usual grid
                 return (
                     <div key={name} className="grid-item">
-                        <GameCard slotData={slotData} thumbnails={thumbnails} />
+                        <GameCard slotData={slotData} thumbnails={thumbnails} orientation={!isFeatured ? 'horizontal' : 'vertical'} />
                     </div>
                 );
             }
         })
     }, [games]);
 
-    return (<div className="game-slots-wrapper">
+    return (<div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
         {isLoading ? <>Loading...</> : renderGameCards()}
     </div>)
 }
