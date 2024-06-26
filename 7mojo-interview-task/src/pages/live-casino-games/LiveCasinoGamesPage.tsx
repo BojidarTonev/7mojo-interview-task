@@ -1,4 +1,4 @@
-import {useLazyGetGamesQuery} from "../../redux/services/games-api";
+import {useGetGamesQuery} from "../../redux/services/games-api";
 import {IGameType} from "../../types/types/game-types";
 import {useCallback, useEffect, useState} from "react";
 import {GameType, GameTypeRequestParams} from "../../types/enums/game-enums";
@@ -12,29 +12,14 @@ const INTERVAL_SECONDS = 1000;
 
 const LiveCasinoGamesPage = () => {
     const { playerInfo, operatorToken } = useAppSelector((state) => state.authorization);
-    const [fetchGamesDataQuery, {data, error, isLoading}] = useLazyGetGamesQuery() as [never, { data: IGameType[], isLoading: boolean, error: string }];
-
     const { currency } = playerInfo || {};
 
+    const {data, error, isLoading} = useGetGamesQuery({ operatorToken, currency, type: GameTypeRequestParams.live }, {
+        pollingInterval: INTERVAL_SECONDS * 1000,
+        skip: !currency
+    });
+
     const [groupedLiveGames, setGroupedLiveGames] = useState<Record<string, IGameType[]>>({});
-
-    // fetch the data
-    useEffect(() => {
-        const fetchGamesData = async () => {
-            if (!currency) {
-                return;
-            }
-            fetchGamesDataQuery({ operatorToken, currency, type: GameTypeRequestParams.live });
-        }
-        // initial fetch of data
-        void fetchGamesData();
-
-        const intervalId = setInterval(() => {
-            void fetchGamesData()
-        }, INTERVAL_SECONDS * 1000);
-
-        return () => clearInterval(intervalId);
-    }, [ currency, operatorToken, fetchGamesDataQuery ]);
 
     useEffect(() => {
         const groupedLiveRouletteGames = groupByGameType(data);
@@ -55,6 +40,9 @@ const LiveCasinoGamesPage = () => {
         });
     }, [groupedLiveGames, isLoading])
 
+    if (error) {
+        return (<div className="error">Error fetching games, please try again later!</div>)
+    }
     return (<div className="live-casino-games-wrapper">
         <div className="live-casino-games">
             {renderLiveCasinoGameTypes()}

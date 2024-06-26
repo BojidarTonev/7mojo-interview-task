@@ -55,7 +55,7 @@ const GameCard = (props: IGameCardProps) => {
             <div className="live-casino-card-name">{name}</div>
             <div className="live-casino-card-info">
                 <div className="live-players-count">/</div>
-                <img src={livePlayersSvg}/>
+                <img src={livePlayersSvg as string} alt={`image-${name}`} loading="lazy" />
                 <div className="live-players-count">{playersCount || 0}</div>
             </div>
         </div>)
@@ -64,7 +64,7 @@ const GameCard = (props: IGameCardProps) => {
     return (<div style={{width, height}} className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}>
         {renderTags()}
         {renderLivePlayers()}
-        <img src={imageThumbNail} />
+        <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" height={height} width={height} />
     </div>)
 }
 

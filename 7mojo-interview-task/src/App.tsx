@@ -24,41 +24,35 @@ const routes: IRouteType[] = [
     }
 ];
 
-const INTERVAL_SECONDS = 10;
+const setUserDataInSlice = (isLoading, userData, dispatch, error) => {
+    dispatch(setUserDataIsLoading(isLoading));
+    if (userData) {
+        const { data: initialData, errorMsg, successful } = userData;
 
-const fetchUserData = async (dispatch, fetchPlayerInfo) => {
-    try {
-        dispatch(setUserDataIsLoading(true));
-        const userData = await fetchPlayerInfo();
-        const { data: initialData } = userData;
-        const { data, errorMsg, successful} = initialData;
-        if (!errorMsg && successful) {
-            dispatch(setUserData(data));
+        if (successful) {
+            dispatch(setUserData(initialData));
         } else {
             dispatch(setUserData(null));
             dispatch(setUserDataError(errorMsg ? errorMsg : 'Error fetching user data!'));
         }
-    } catch (error) {
+    } else if (error) {
         dispatch(setUserData(null));
         dispatch(setUserDataError('Error fetching user data!'));
     }
-    dispatch(setUserDataIsLoading(false));
 }
+
+const INTERVAL_SECONDS = 10;
 
 function App() {
     const dispatch = useAppDispatch();
     const { operatorToken, playerToken } = useAppSelector((state) => state.authorization);
-    const { refetch: fetchPlayerInfo } = useGetPlayerInfoQuery({ playerToken, operatorToken });
+    const { data: userData, isLoading, error } = useGetPlayerInfoQuery({ playerToken, operatorToken }, {
+        pollingInterval: INTERVAL_SECONDS * 1000
+    });
 
     useEffect(() => {
-        void fetchUserData(dispatch, fetchPlayerInfo);
-
-        const intervalId = setInterval(() => {
-            void fetchUserData(dispatch, fetchPlayerInfo)
-        }, INTERVAL_SECONDS * 1000);
-
-        return () => clearInterval(intervalId);
-    }, [ fetchPlayerInfo, dispatch ]);
+        setUserDataInSlice(isLoading, userData, dispatch, error);
+    }, [userData, dispatch, error, isLoading]);
 
     return (<div className="app-wrapper">
         <BrowserRouter>

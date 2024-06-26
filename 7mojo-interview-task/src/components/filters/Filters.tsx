@@ -19,7 +19,6 @@ const Filters = () => {
             value: value
         }
     });
-
     const handleGameLineChange = (label: string) => {
         const newSelectedLinesArr = selectedLines.includes(label) ? [] : [label];
         dispatch(setSlotGamesSelectedLines(newSelectedLinesArr));

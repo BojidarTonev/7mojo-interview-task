@@ -13,7 +13,7 @@ const Header = () => {
     }
     return (<>
         <div className="header-wrapper">
-            <img src={logo} alt="7mojo-logo" height={80} width={100}/>
+            <img src={logo as string} alt="7mojo-logo" height={80} width={100} loading="lazy"/>
             <div style={{ width: 100 }}></div>
             <nav>
                 <NavLink to="/live-casino-games">Live Casino Games</NavLink>

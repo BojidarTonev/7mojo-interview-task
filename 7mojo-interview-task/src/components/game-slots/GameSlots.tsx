@@ -83,7 +83,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                 );
             }
         })
-    }, [games, isFeatured]);
+    }, [isSlotGame, games, isFeatured]);
 
     return (<div className="game-slots">
         {hasOpenedFilter && isFilterable && <Filters />}
@@ -92,7 +92,8 @@ const GameSlots = (props: IGameSlotsProps) => {
                 <>Loading...</> :
                 !playerInfo ?
                 <div className="error" style={{ width: '70vw', alignSelf: 'center'}}>You have to be authorised in order to have access to casino games!</div> :
-                renderGameCards()}
+                renderGameCards()
+            }
         </div>
     </div>)
 }

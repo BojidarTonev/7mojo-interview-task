@@ -8,7 +8,6 @@ import {authorizationApi} from "./services/authorization-api";
 import {authorizationSlice} from "./features/authorization-slice";
 import {gamesFiltersSlice} from "./features/games-filters-slice";
 
-
 const middlewares: Middleware[] = [
     authorizationApi.middleware,
     gamesApi.middleware,
