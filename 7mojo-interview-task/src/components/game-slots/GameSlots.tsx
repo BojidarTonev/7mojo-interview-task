@@ -23,7 +23,7 @@ const GameSlots = (props: IGameSlotsProps) => {
             return <FeaturedGameCards featuredGames={games} areSlotGames={areSlotGames} />
         } else {
             return games?.map((game: IGameType) => {
-                const { slotData, thumbnails, name, categories, liveData } = game;
+                const { slotData, thumbnails, name, categories, liveData, token, hostUrl } = game;
 
                 return (
                     <div key={name} className="grid-item">
@@ -35,6 +35,8 @@ const GameSlots = (props: IGameSlotsProps) => {
                             isSlotGame={areSlotGames}
                             playersCount={liveData?.playersCount}
                             orientation={!isFeatured ? 'horizontal' : 'vertical'}
+                            token={token}
+                            hostUrl={hostUrl}
                         />
                     </div>
                 );

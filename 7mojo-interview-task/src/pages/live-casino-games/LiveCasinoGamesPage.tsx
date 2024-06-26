@@ -7,7 +7,18 @@ import {splitCamelCase} from "../../utils";
 import CasinoGamesWrapper from "../../components/casino-games-wrapper/CasinoGamesWrapper";
 import './LiveCasinoGamesPage.scss';
 
-const INTERVAL_SECONDS = 1000;
+const INTERVAL_SECONDS = 10;
+
+const orderedGameTypes = [
+    'Roulette',
+    'Blackjack',
+    'Unlimited Blackjack',
+    'Andar Bahar',
+    'Teen Patti',
+    'Teen Patti Face Off',
+    'Baccarat',
+    'Dragon Tiger'
+];
 
 const LiveCasinoGamesPage = () => {
     const { playerInfo, operatorToken } = useAppSelector((state) => state.authorization);
@@ -29,9 +40,15 @@ const LiveCasinoGamesPage = () => {
         if (!groupedLiveGames) {
             return
         }
-        return Object.entries(groupedLiveGames).map(([gameType, games]) => {
-            return (<CasinoGamesWrapper name={splitCamelCase(gameType)} games={games} isLoading={isLoading} />);
+        const sortedKeys = Object.keys(groupedLiveGames).sort((key1, key2) => {
+            const index1 = orderedGameTypes.indexOf(key1);
+            const index2 = orderedGameTypes.indexOf(key2);
+            return index1 + index2;
         });
+
+        return sortedKeys.map((gameType) => (
+            <CasinoGamesWrapper key={gameType} name={splitCamelCase(gameType)} games={groupedLiveGames[gameType]} isLoading={isLoading} />
+        ));
     }, [groupedLiveGames, isLoading])
 
     if (error) {

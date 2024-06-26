@@ -4,6 +4,7 @@ import livePlayersSvg from '../../assets/players.svg';
 import {ISlotData, IThumbnail} from "../../types/types/game-types";
 import {GameCategory, SlotGameTag} from "../../types/enums/game-enums";
 import {getEnumEntries, splitCamelCase} from "../../utils";
+import {useAppSelector} from "../../redux/store";
 import './GameCard.scss';
 
 interface IGameCardProps {
@@ -14,14 +15,22 @@ interface IGameCardProps {
     isSlotGame: boolean
     name: string
     playersCount?: number
+    token: string
+    hostUrl: string
 }
 
 const GameCard = (props: IGameCardProps) => {
-    const { name, slotData, categories, thumbnails, isSlotGame, playersCount, orientation = 'vertical' } = props;
+    const { name, slotData, categories, thumbnails, isSlotGame, playersCount, token, hostUrl, orientation = 'vertical' } = props;
+    const { operatorToken, playerToken } = useAppSelector((state) => state.authorization);
     // const { width, height, videoUrl, imageUrl } = thumbnails[0];
 
     const height = orientation === 'vertical' ? 440 : 180;
     const width = orientation === 'vertical' ? 220: 300;
+
+    const onGameClick = (gameToken: string, operatorToken: string, playerToken: string, host: string) => {
+        const composedUrl = `https://dev-cgm.7mojos.com/live/1/?gameToken=${gameToken}&operatorToken=${operatorToken}&playerToken=${playerToken}&host=${host}`;
+        window.open(composedUrl, '_blank')
+    };
 
     const mappedTags = useMemo(() => {
         if (!isSlotGame) {
@@ -61,11 +70,15 @@ const GameCard = (props: IGameCardProps) => {
         </div>)
     }, [isSlotGame, name, playersCount]);
 
-    return (<div style={{width, height}} className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}>
-        {renderTags()}
-        {renderLivePlayers()}
-        <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" />
-    </div>)
+    return (<div
+        style={{width, height}}
+        className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}
+        onClick={() => onGameClick(token, operatorToken, playerToken, hostUrl)}
+        >
+            {renderTags()}
+            {renderLivePlayers()}
+            <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" />
+        </div>)
 }
 
 export default GameCard;

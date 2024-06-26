@@ -34,6 +34,8 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                             name={firstElement.name}
                             categories={firstElement.categories}
                             playersCount={firstElement.liveData?.playersCount}
+                            token={firstElement.token}
+                            hostUrl={firstElement.hostUrl}
                         />
                         <GameCard
                             key={secondElement.name}
@@ -44,11 +46,13 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                             name={secondElement.name}
                             categories={secondElement.categories}
                             playersCount={secondElement.liveData?.playersCount}
+                            token={secondElement.token}
+                            hostUrl={secondElement.hostUrl}
                         />
                     </div>
                 )
             }
-            const { slotData, thumbnails, name, categories, liveData } = game;
+            const { slotData, thumbnails, name, categories, liveData, token, hostUrl } = game;
             return (<div key={name} className="grid-item">
                 <GameCard
                     slotData={slotData}
@@ -58,6 +62,8 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                     isSlotGame={areSlotGames}
                     playersCount={liveData?.playersCount}
                     orientation="vertical"
+                    token={token}
+                    hostUrl={hostUrl}
                 />
             </div>)
         })}
