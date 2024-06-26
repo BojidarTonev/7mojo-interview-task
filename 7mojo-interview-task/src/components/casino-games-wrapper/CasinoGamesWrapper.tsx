@@ -59,7 +59,7 @@ const filterAllGamesData = (allGamesData: IGameType[], maximumLines: number, min
 
 const getSelectedLineValues = (selectedLines: string[]): [number, number] => {
     const selectedLineValues = selectedLines[0]
-        ? selectedLines[0].split(/[->]/).filter(el => !isNaN(el)).filter(el => el).map(el => Number(el))
+        ? selectedLines[0].split(/[->]/).filter(el => !isNaN(Number(el))).filter(el => el).map(el => Number(el))
         : [0, Infinity];
     // in case we have >50 to keep the logic flow without braking it
     if (selectedLineValues.length === 1) {
