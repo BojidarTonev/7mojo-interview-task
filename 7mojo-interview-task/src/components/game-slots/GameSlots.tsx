@@ -7,14 +7,13 @@ import './GameSlots.scss';
 
 interface IGameSlotsProps {
     games?: IGameType[]
-    isLoading: boolean
     isFeatured?: boolean
     isFilterable?: boolean
-    isSlotGame: boolean
+    areSlotGames: boolean
 }
 
 const GameSlots = (props: IGameSlotsProps) => {
-    const { games, isLoading, isSlotGame, isFeatured = false, isFilterable = false } = props;
+    const { games, areSlotGames, isFeatured = false, isFilterable = false } = props;
     const { playerInfo } = useAppSelector((state) => state.authorization);
     const {hasOpenedFilter} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
@@ -31,7 +30,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                                 slotData={slotData}
                                 thumbnails={thumbnails}
                                 orientation='horizontal'
-                                isSlotGame={isSlotGame}
+                                isSlotGame={areSlotGames}
                                 name={name}
                                 categories={categories}
                                 playersCount={liveData?.playersCount}
@@ -41,7 +40,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                                     slotData={nextGridItem.slotData}
                                     thumbnails={nextGridItem.thumbnails}
                                     orientation='horizontal'
-                                    isSlotGame={isSlotGame}
+                                    isSlotGame={areSlotGames}
                                     name={name}
                                     categories={categories}
                                     playersCount={liveData?.playersCount}
@@ -58,7 +57,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                             <GameCard
                                 slotData={slotData}
                                 thumbnails={thumbnails}
-                                isSlotGame={isSlotGame}
+                                isSlotGame={areSlotGames}
                                 name={name}
                                 categories={categories}
                                 playersCount={liveData?.playersCount}
@@ -75,7 +74,7 @@ const GameSlots = (props: IGameSlotsProps) => {
                             thumbnails={thumbnails}
                             name={name}
                             categories={categories}
-                            isSlotGame={isSlotGame}
+                            isSlotGame={areSlotGames}
                             playersCount={liveData?.playersCount}
                             orientation={!isFeatured ? 'horizontal' : 'vertical'}
                         />
@@ -83,16 +82,15 @@ const GameSlots = (props: IGameSlotsProps) => {
                 );
             }
         })
-    }, [isSlotGame, games, isFeatured]);
+    }, [areSlotGames, games, isFeatured]);
 
     return (<div className="game-slots">
         {hasOpenedFilter && isFilterable && <Filters />}
         <div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
-            {isLoading ?
-                <>Loading...</> :
+            {
                 !playerInfo ?
-                <div className="error" style={{ width: '70vw', alignSelf: 'center'}}>You have to be authorised in order to have access to casino games!</div> :
-                renderGameCards()
+                    <div className="error" style={{ width: '70vw', alignSelf: 'center'}}>You have to be authorised in order to have access to casino games!</div> :
+                    renderGameCards()
             }
         </div>
     </div>)

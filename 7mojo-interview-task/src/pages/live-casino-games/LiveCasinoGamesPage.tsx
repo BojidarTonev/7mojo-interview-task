@@ -3,9 +3,8 @@ import {IGameType} from "../../types/types/game-types";
 import {useCallback, useEffect, useState} from "react";
 import {GameType, GameTypeRequestParams} from "../../types/enums/game-enums";
 import {useAppSelector} from "../../redux/store";
-import HorizontalSeparator from "../../components/horizontal-seperator/HorizontalSeparator";
-import GameSlots from "../../components/game-slots/GameSlots";
 import {splitCamelCase} from "../../utils";
+import CasinoGamesWrapper from "../../components/casino-games-wrapper/CasinoGamesWrapper";
 import './LiveCasinoGamesPage.scss';
 
 const INTERVAL_SECONDS = 1000;
@@ -31,12 +30,7 @@ const LiveCasinoGamesPage = () => {
             return
         }
         return Object.entries(groupedLiveGames).map(([gameType, games]) => {
-            return (
-                <div key={gameType}>
-                    <HorizontalSeparator name={splitCamelCase(gameType)} />
-                    <GameSlots games={games} isLoading={isLoading} isSlotGame={false} />
-                </div>
-            );
+            return (<CasinoGamesWrapper name={splitCamelCase(gameType)} games={games} isLoading={isLoading} />);
         });
     }, [groupedLiveGames, isLoading])
 

@@ -64,7 +64,7 @@ const GameCard = (props: IGameCardProps) => {
     return (<div style={{width, height}} className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}>
         {renderTags()}
         {renderLivePlayers()}
-        <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" height={height} width={height} />
+        <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" />
     </div>)
 }
 

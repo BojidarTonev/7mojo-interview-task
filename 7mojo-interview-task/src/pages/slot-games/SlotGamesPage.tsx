@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
-import HorizontalSeparator from "../../components/horizontal-seperator/HorizontalSeparator";
-import GameSlots from "../../components/game-slots/GameSlots";
 import {useAppSelector} from "../../redux/store";
 import {useGetGamesQuery} from "../../redux/services/games-api";
 import {IGameType} from "../../types/types/game-types";
 import {ILabelValuePair} from "../../types/common";
 import {GameTypeRequestParams} from "../../types/enums/game-enums";
+import CasinoGamesWrapper from "../../components/casino-games-wrapper/CasinoGamesWrapper";
 import './SlotGamesPage.scss';
 
 const INTERVAL_SECONDS = 10;
@@ -41,10 +40,8 @@ const SlotGamesPage = () => {
         return (<div className="error">Error fetching games, please try again later!</div>)
     }
     return(<div className="slot-games-wrapper">
-        <HorizontalSeparator name="Featured games" />
-        <GameSlots games={featuredGames} isLoading={isLoading} isSlotGame isFeatured />
-        <HorizontalSeparator name="Slots" hasFilter />
-        <GameSlots games={allGames} isLoading={isLoading} isSlotGame isFilterable />
+        <CasinoGamesWrapper name="Featured games" games={featuredGames} isFeatured areSlotGames isLoading={isLoading} />
+        <CasinoGamesWrapper name="Slots" games={allGames} hasFilter areSlotGames isLoading={isLoading} />
     </div>)
 };
 
