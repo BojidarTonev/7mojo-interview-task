@@ -15,6 +15,7 @@ interface IGameSlotsProps {
 
 const GameSlots = (props: IGameSlotsProps) => {
     const { games, isLoading, isSlotGame, isFeatured = false, isFilterable = false } = props;
+    const { playerInfo } = useAppSelector((state) => state.authorization);
     const {hasOpenedFilter} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
     const renderGameCards = useCallback(() => {
@@ -87,7 +88,11 @@ const GameSlots = (props: IGameSlotsProps) => {
     return (<div className="game-slots">
         {hasOpenedFilter && isFilterable && <Filters />}
         <div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
-            {isLoading ? <>Loading...</> : renderGameCards()}
+            {isLoading ?
+                <>Loading...</> :
+                !playerInfo ?
+                <div className="error" style={{ width: '70vw', alignSelf: 'center'}}>You have to be authorised in order to have access to casino games!</div> :
+                renderGameCards()}
         </div>
     </div>)
 }

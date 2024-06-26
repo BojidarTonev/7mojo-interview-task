@@ -53,7 +53,7 @@ const SlotGamesPage = () => {
     }, [data, selectedGameFeatures, selectedLines]);
 
     if (error) {
-        return (<div>Error fetching games, please try again later!</div>)
+        return (<div className="error">Error fetching games, please try again later!</div>)
     }
     return(<div className="slot-games-wrapper">
         <HorizontalSeparator name="Featured games" />

@@ -9,7 +9,7 @@ const Header = () => {
     const { username, currency, balance } = playerInfo || {};
 
     if (error) {
-        return(<div>{error}</div>)
+        return(<div className="error">{error}</div>)
     }
     return (<>
         <div className="header-wrapper">
