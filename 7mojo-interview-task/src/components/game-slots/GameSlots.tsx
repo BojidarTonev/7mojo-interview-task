@@ -3,6 +3,7 @@ import {useCallback} from "react";
 import GameCard from "../game-card/GameCard";
 import Filters from "../filters/Filters";
 import {useAppSelector} from "../../redux/store";
+import FeaturedGameCards from "../featured-game-cards/featured-game-cards";
 import './GameSlots.scss';
 
 interface IGameSlotsProps {
@@ -17,56 +18,13 @@ const GameSlots = (props: IGameSlotsProps) => {
     const { playerInfo } = useAppSelector((state) => state.authorization);
     const {hasOpenedFilter} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
-    const renderGameCards = useCallback(() => {
-        return games?.map((game: IGameType, index: number) => {
-            const { slotData, thumbnails, name, categories, liveData } = game;
-            if (games?.length === 6 && isFeatured) {
-                if (index === 2) {
-                    // Render two cards stacked in one grid item
-                    const nextGridItem = games[3];
-                    return (
-                        <div key={name} className="grid-item stacked">
-                            <GameCard
-                                slotData={slotData}
-                                thumbnails={thumbnails}
-                                orientation='horizontal'
-                                isSlotGame={areSlotGames}
-                                name={name}
-                                categories={categories}
-                                playersCount={liveData?.playersCount}
-                            />
-                            {nextGridItem &&
-                                <GameCard
-                                    slotData={nextGridItem.slotData}
-                                    thumbnails={nextGridItem.thumbnails}
-                                    orientation='horizontal'
-                                    isSlotGame={areSlotGames}
-                                    name={name}
-                                    categories={categories}
-                                    playersCount={liveData?.playersCount}
-                                />
-                            }
-                        </div>
-                    );
-                } else if (index === 3) {
-                    return null; // Skip rendering the 4th game separately
-                } else {
-                    // Render single card in a grid item
-                    return (
-                        <div key={name} className="grid-item">
-                            <GameCard
-                                slotData={slotData}
-                                thumbnails={thumbnails}
-                                isSlotGame={areSlotGames}
-                                name={name}
-                                categories={categories}
-                                playersCount={liveData?.playersCount}
-                            />
-                        </div>
-                    );
-                }
-            } else {
-                // if we have less than 6 items, render items as usual grid
+    const renderGameCards2 = useCallback(() => {
+        if (games && games.length === 6 && isFeatured) {
+            return <FeaturedGameCards featuredGames={games} areSlotGames={areSlotGames} />
+        } else {
+            return games?.map((game: IGameType) => {
+                const { slotData, thumbnails, name, categories, liveData } = game;
+
                 return (
                     <div key={name} className="grid-item">
                         <GameCard
@@ -80,17 +38,18 @@ const GameSlots = (props: IGameSlotsProps) => {
                         />
                     </div>
                 );
-            }
-        })
-    }, [areSlotGames, games, isFeatured]);
+            })
+        }
+    }, [areSlotGames, isFeatured, games]);
 
     return (<div className="game-slots">
-        {hasOpenedFilter && isFilterable && <Filters />}
+        {hasOpenedFilter && isFilterable && <Filters/>}
         <div className={`${isFeatured ? 'game-slots-featured-wrapper' : 'game-slots-wrapper'}`}>
             {
                 !playerInfo ?
-                    <div className="error" style={{ width: '70vw', alignSelf: 'center'}}>You have to be authorised in order to have access to casino games!</div> :
-                    renderGameCards()
+                    <div className="error" style={{width: '70vw', alignSelf: 'center'}}>You have to be authorised in
+                        order to have access to casino games!</div> :
+                    renderGameCards2()
             }
         </div>
     </div>)

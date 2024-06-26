@@ -14,13 +14,17 @@ interface ICasinoGamesWrapperProps {
     areSlotGames?: boolean
     isLoading: boolean
 }
+
 const CasinoGamesWrapper = (props: ICasinoGamesWrapperProps) => {
-    const { name, games = [], isFeatured = false, hasFilter = false, areSlotGames = false, isLoading } = props;
+    const { name, games, isFeatured = false, hasFilter = false, areSlotGames = false, isLoading } = props;
     const {selectedGameFeatures, selectedLines} = useAppSelector((state) => state.gamesFilters.slotGamesFilters);
 
     const [displayGames, setDisplayGames] = useState<IGameType[]>([]);
 
     useEffect(() => {
+        if (!games) {
+            return
+        }
         if (isFeatured) {
             const filteredFeaturedGamesData: IGameType[] = games?.filter((el: IGameType) => el.isFeatured);
             setDisplayGames(filteredFeaturedGamesData)
