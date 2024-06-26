@@ -21,8 +21,8 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
     return(<>
         {gamesToRender?.map((game: IGameType, index: number) => {
             if (index === 2) {
-                const firstElement = game[0];
-                const secondElement = game[1];
+                const firstElement: IGameType = game[0];
+                const secondElement: IGameType = game[1];
                 return (
                     <div key={`${firstElement.name}-${secondElement.name}`} className="grid-item stacked">
                         <GameCard
@@ -36,6 +36,7 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                             playersCount={firstElement.liveData?.playersCount}
                             token={firstElement.token}
                             hostUrl={firstElement.hostUrl}
+                            clientUrl={firstElement.clientUrl}
                         />
                         <GameCard
                             key={secondElement.name}
@@ -48,11 +49,12 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                             playersCount={secondElement.liveData?.playersCount}
                             token={secondElement.token}
                             hostUrl={secondElement.hostUrl}
+                            clientUrl={secondElement.clientUrl}
                         />
                     </div>
                 )
             }
-            const { slotData, thumbnails, name, categories, liveData, token, hostUrl } = game;
+            const { slotData, thumbnails, name, categories, liveData, token, hostUrl, clientUrl } = game;
             return (<div key={name} className="grid-item">
                 <GameCard
                     slotData={slotData}
@@ -64,6 +66,7 @@ const FeaturedGameCards = (props: IFeaturedGameCards) => {
                     orientation="vertical"
                     token={token}
                     hostUrl={hostUrl}
+                    clientUrl={clientUrl}
                 />
             </div>)
         })}

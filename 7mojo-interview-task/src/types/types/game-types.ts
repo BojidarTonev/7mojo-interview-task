@@ -3,8 +3,8 @@ import {GameCategory, GameType, SlotGameTag} from "../enums/game-enums";
 interface IThumbnail {
     width: number
     height: number
-    imageUrl: number
-    videoUrl: number
+    imageUrl: string
+    videoUrl: string
 }
 
 interface ISlotData {

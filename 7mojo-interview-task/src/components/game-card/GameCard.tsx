@@ -1,4 +1,4 @@
-import {useCallback, useMemo} from "react";
+import {useCallback, useMemo, useState} from "react";
 import defaultThumbnail from '../../assets/default_thumbnail.png';
 import livePlayersSvg from '../../assets/players.svg';
 import {ISlotData, IThumbnail} from "../../types/types/game-types";
@@ -17,18 +17,22 @@ interface IGameCardProps {
     playersCount?: number
     token: string
     hostUrl: string
+    clientUrl: string
 }
 
 const GameCard = (props: IGameCardProps) => {
-    const { name, slotData, categories, thumbnails, isSlotGame, playersCount, token, hostUrl, orientation = 'vertical' } = props;
+    const { name, slotData, categories, thumbnails, isSlotGame, playersCount, token, hostUrl, clientUrl, orientation = 'vertical' } = props;
     const { operatorToken, playerToken } = useAppSelector((state) => state.authorization);
-    // const { width, height, videoUrl, imageUrl } = thumbnails[0];
+    const [isHovered, setIsHovered] = useState<boolean>(false);
+
+    const videoUrl = thumbnails.length > 0 ? thumbnails[0].videoUrl : defaultThumbnail;
+    const thumbNail = thumbnails.length > 0 ? thumbnails[0].imageUrl : defaultThumbnail;
 
     const height = orientation === 'vertical' ? 440 : 180;
     const width = orientation === 'vertical' ? 220: 300;
 
-    const onGameClick = (gameToken: string, operatorToken: string, playerToken: string, host: string) => {
-        const composedUrl = `https://dev-cgm.7mojos.com/live/1/?gameToken=${gameToken}&operatorToken=${operatorToken}&playerToken=${playerToken}&host=${host}`;
+    const onGameClick = (gameToken: string, operatorToken: string, playerToken: string, host: string, client: string) => {
+        const composedUrl = `${client}?gameToken=${gameToken}&operatorToken=${operatorToken}&playerToken=${playerToken}&host=${host}`;
         window.open(composedUrl, '_blank')
     };
 
@@ -40,10 +44,6 @@ const GameCard = (props: IGameCardProps) => {
 
         return [`${slotData?.linesCount} Lines`, ...(slotData || [] as ISlotData).tags.map(tag => SlotGameTag[tag])].map(splitCamelCase);
     }, [isSlotGame, slotData, categories]);
-
-    const imageThumbNail = useMemo(() => {
-        return thumbnails[0] ? thumbnails[0].imageUrl : defaultThumbnail;
-    }, [thumbnails]);
 
     const renderTags = useCallback(() => {
         return (<div className={`tags-wrapper ${orientation === 'horizontal' ? 'horizontal-tags-wrapper' : ''}`}>
@@ -73,11 +73,14 @@ const GameCard = (props: IGameCardProps) => {
     return (<div
         style={{width, height}}
         className={`game-card-wrapper ${orientation === 'horizontal' ? 'horizontal-styles' : ''}`}
-        onClick={() => onGameClick(token, operatorToken, playerToken, hostUrl)}
+        onClick={() => onGameClick(token, operatorToken, playerToken, hostUrl, clientUrl)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         >
             {renderTags()}
             {renderLivePlayers()}
-            <img src={imageThumbNail as string} alt={`image-${name}`} loading="lazy" />
+            <img src={thumbNail as string} alt={`image-${name}`} loading="lazy" />
+            <video src={videoUrl as string} loop muted className={`video-player ${isHovered ? 'active' : ''}`}></video>
         </div>)
 }
 
